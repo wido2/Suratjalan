@@ -13,10 +13,15 @@ return new class extends Migration
     {
         Schema::create('surat_jalans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('nomor_surat_jalan');
+            $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
+            $table->foreignId('kontak_id')->constrained('kontaks')->cascadeOnDelete();
+            $table->text('address');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->date('tanggal_pengiriman');
             $table->foreignId('kendaraan_id')->constrained('kendaraans')->cascadeOnDelete();
+            $table->json('scan_surat');
+            $table->json('lampiran');
             $table->timestamps();
         });
     }
