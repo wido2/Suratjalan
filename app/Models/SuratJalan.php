@@ -19,6 +19,11 @@ class SuratJalan extends Model
         'scan_surat',
         'lampiran',
     ];
+
+    protected $casts =[
+        'scan_surat' => 'array',
+        'lampiran' => 'array',
+    ];
     public function customer()
     {
         return $this->belongsTo(Customer::class);
@@ -27,5 +32,12 @@ class SuratJalan extends Model
     {
         return $this->belongsTo(Kontak::class);
     }
-    
+
+    public function kendaraan()
+    {
+        return $this->belongsTo(Kendaraan::class);
+    }
+
+
+
 }

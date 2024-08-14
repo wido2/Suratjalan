@@ -1,0 +1,67 @@
+<?php
+
+namespace App\Filament\Resources;
+
+use Filament\Forms;
+use Filament\Tables;
+use App\Models\Kontak;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use App\Http\Controllers\FormKontak;
+use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\KontakResource\Pages;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\KontakResource\RelationManagers;
+
+class KontakResource extends Resource
+{
+    protected static ?string $model = Kontak::class;
+
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema(
+                FormKontak::getFormKontak()
+            );
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns(
+                FormKontak::getTableKontak()
+            )
+            ->filters([
+                //
+            ])
+            ->actions([
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListKontaks::route('/'),
+            'create' => Pages\CreateKontak::route('/create'),
+            'view' => Pages\ViewKontak::route('/{record}'),
+            'edit' => Pages\EditKontak::route('/{record}/edit'),
+        ];
+    }
+}
