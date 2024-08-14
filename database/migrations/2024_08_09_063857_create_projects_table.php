@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('tanggal_selesai')->nullable();
             $table->enum('status', ['Pending', 'On Progress', 'Completed', 'Cancelled'])->default('On Progress');
             $table->text('deskripsi')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

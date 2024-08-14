@@ -11,5 +11,11 @@ class Barang extends Model
 
     protected $fillable=[
         'nama_produk', 'id_kategori', 'id_supplier', 'stok', 'satuan', 'harga_beli', 'harga_jual'
-    ]
+    ];
+
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class, 'id_kategori');
+    }
+    
 }
