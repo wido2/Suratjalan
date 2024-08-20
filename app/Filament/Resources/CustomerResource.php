@@ -25,7 +25,7 @@ class CustomerResource extends Resource
 {
     protected static ?string $model = Customer::class;
     protected static ?string $navigationLabel = 'Customer';
-    protected static ?string $navigationGroup = 'Data Customer';
+    protected static ?string $navigationGroup = 'Data Customer / Vendor';
     protected static ?string $pluralModelLabel = 'Data Customer';
 
 

@@ -21,5 +21,11 @@ class Kontak extends Model
         return $this->belongsTo(Customer::class);
     }
 
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
+    }
+
+
 
 }

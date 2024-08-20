@@ -12,12 +12,17 @@ class FormKontak extends Controller
     static function getFormKontak():array{
         return [
             Select::make('customer_id')
-            ->required()
+            // ->required()
             ->searchable()
             ->preload()
             ->label('Customer')
             ->relationship('customer','nama')
             ,
+            Select::make('vendor_id')
+            ->searchable()
+            ->preload()
+            ->label('Vendor')
+            ->relationship('vendor','nama'),
             TextInput::make('nama')
             ->required()
             ->maxLength(255),
@@ -41,6 +46,8 @@ class FormKontak extends Controller
             TextColumn::make('customer.nama')
             ->searchable()
             ->label('Customer'),
+            TextColumn::make('vendor.nama')
+            ->searchable(),
             TextColumn::make('nama')
             ->searchable(),
             TextColumn::make('email')

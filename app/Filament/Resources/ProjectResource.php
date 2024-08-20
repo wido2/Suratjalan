@@ -19,7 +19,7 @@ use App\Http\Controllers\ActionTable;
 class ProjectResource extends Resource
 {
     protected static ?string $model = Project::class;
-    protected static ?string $navigationGroup = 'Data Customer';
+    protected static ?string $navigationGroup = 'Data Customer / Vendor';
     protected static?string $navigationLabel = 'Proyek';
     protected static?string $pluralModelLabel = 'Proyek Customer';
     protected static ?string $navigationIcon = 'heroicon-o-presentation-chart-line';

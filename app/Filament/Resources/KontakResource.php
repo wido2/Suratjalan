@@ -13,11 +13,12 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\KontakResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\KontakResource\RelationManagers;
+use App\Http\Controllers\ActionTable;
 
 class KontakResource extends Resource
 {
     protected static ?string $model = Kontak::class;
-    protected static ?string $navigationGroup = 'Data Customer';
+    protected static ?string $navigationGroup = 'Data Customer / Vendor';
     protected static?string $navigationLabel = 'Kontak Person';
     protected static ?string $navigationIcon = 'heroicon-o-identification';
     protected static?string $pluralModelLabel = 'Contact Person Customer';
@@ -40,10 +41,9 @@ class KontakResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-            ])
+            ->actions(
+                ActionTable::getActionTable()
+            )
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

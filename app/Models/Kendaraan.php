@@ -9,8 +9,17 @@ class Kendaraan extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'nama', 'nomor_polisi', 'jenis_kendaraan',
-
+        'vendor_id','nama', 'nomor_polisi',
+        'jenis_kendaraan',
+        'merk',
+        'tahun_pembuatan',
+        'warna',
+        'nomor_rangka',
+        'nomor_mesin',
+        'nomor_stnk',
+        'nomor_bpkb',
+        'tanggal_stnk',
+        'tanggal_bpkb'
     ];
     public function vendor()
     {

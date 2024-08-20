@@ -21,10 +21,7 @@ return new class extends Migration
             ->nullable()
             ->constrained('customers')
             ->cascadeOnDelete();
-            $table->foreignId('vendor_id')
-            ->nullable()
-            ->constrained('vendors')
-            ->cascadeOnDelete();
+            
             $table->timestamps();
         });
     }

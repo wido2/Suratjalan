@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
             function(){
                 Filament::registerNavigationGroups([
                     'Surat Jalan',
-                    'Data Customer',
+                    'Data Customer / Vendor',
                     'Data Barang'
                 ]);
             }

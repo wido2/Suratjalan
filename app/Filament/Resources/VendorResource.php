@@ -4,40 +4,38 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
-use App\Models\Address;
+use App\Models\Vendor;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use App\Http\Controllers\FormAddress;
-use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\AddressResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\AddressResource\RelationManagers;
 
-class AddressResource extends Resource
+use Filament\Resources\Resource;
+use Illuminate\Database\Eloquent\Builder;
+use App\Http\Controllers\VendorController;
+use App\Filament\Resources\VendorResource\Pages;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\VendorResource\RelationManagers;
+
+class VendorResource extends Resource
 {
-    protected static ?string $model = Address::class;
+    protected static ?string $model = Vendor::class;
     protected static ?string $navigationGroup = 'Data Customer / Vendor';
 
-    protected static?string $navigationLabel = 'Alamat';
-    protected static?string $navigationIcon = 'heroicon-o-map';
-    protected static?string $pluralModelLabel = 'Data Alamat';
-
+    protected static ?string $navigationIcon = 'heroicon-o-inbox-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema(
-                FormAddress::getFormAddress()
+                VendorController::getFormVendor()
             );
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->columns(
-                FormAddress::getTableAddress()
-            )
+            ->columns([
+                //
+            ])
             ->filters([
                 //
             ])
@@ -62,10 +60,10 @@ class AddressResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAddresses::route('/'),
-            'create' => Pages\CreateAddress::route('/create'),
-            'view' => Pages\ViewAddress::route('/{record}'),
-            'edit' => Pages\EditAddress::route('/{record}/edit'),
+            'index' => Pages\ListVendors::route('/'),
+            'create' => Pages\CreateVendor::route('/create'),
+            'view' => Pages\ViewVendor::route('/{record}'),
+            'edit' => Pages\EditVendor::route('/{record}/edit'),
         ];
     }
 }
