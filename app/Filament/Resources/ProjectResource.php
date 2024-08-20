@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ProjectResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ProjectResource\RelationManagers;
+use App\Filament\Resources\ProjectResource\RelationManagers\ProjectItemRelationManager;
 use App\Http\Controllers\ActionTable;
 
 class ProjectResource extends Resource
@@ -51,7 +52,8 @@ class ProjectResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ProjectItemRelationManager::class
+
         ];
     }
 

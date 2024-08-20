@@ -24,6 +24,7 @@ class LoginPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
+            ->sidebarCollapsibleOnDesktop()
             ->id('login')
             ->path('login')
             ->login()
