@@ -13,9 +13,21 @@ return new class extends Migration
     {
         Schema::create('kendaraans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('vendor_id')
+            ->constrained('vendors')
+            ->cascadeOnDelete();
             $table->string('nama');
             $table->string('nomor_polisi');
             $table->string('jenis_kendaraan');
+            $table->string('merk');
+            $table->date('tahun_pembuatan')->nullable();
+            $table->string('warna')->nullable();
+            $table->string('nomor_rangka')->nullable();
+            $table->string('nomor_mesin')->nullable();
+            $table->string('nomor_stnk')->nullable();
+            $table->string('nomor_bpkb')->nullable();
+            $table->date('tanggal_stnk')->nullable();
+            $table->date('tanggal_bpkb')->nullable();
             $table->timestamps();
         });
     }

@@ -24,8 +24,16 @@ use App\Filament\Resources\CustomerResource\RelationManagers\ProjectRelationMana
 class CustomerResource extends Resource
 {
     protected static ?string $model = Customer::class;
+    protected static ?string $navigationLabel = 'Customer';
+    protected static ?string $navigationGroup = 'Data Customer';
+    protected static ?string $pluralModelLabel = 'Data Customer';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+
+
+
+
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     public static function form(Form $form): Form
     {

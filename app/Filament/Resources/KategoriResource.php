@@ -20,8 +20,10 @@ use App\Filament\Resources\KategoriResource\RelationManagers;
 class KategoriResource extends Resource
 {
     protected static ?string $model = Kategori::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Data Barang';
+    protected static ?string $pluralModelLabel = 'Kategori Barang';
+    protected static?string $navigationLabel = 'Kategori Barang';
+    protected static ?string $navigationIcon = 'heroicon-o-swatch';
 
     public static function form(Form $form): Form
     {

@@ -17,8 +17,11 @@ use App\Filament\Resources\KontakResource\RelationManagers;
 class KontakResource extends Resource
 {
     protected static ?string $model = Kontak::class;
+    protected static ?string $navigationGroup = 'Data Customer';
+    protected static?string $navigationLabel = 'Kontak Person';
+    protected static ?string $navigationIcon = 'heroicon-o-identification';
+    protected static?string $pluralModelLabel = 'Contact Person Customer';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {

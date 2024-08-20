@@ -9,20 +9,24 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use App\Http\Controllers\FormSatuan;
+use App\Http\Controllers\ActionTable;
 use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\SatuanResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\SatuanResource\RelationManagers;
-use Filament\Tables\Columns\ToggleColumn;
 
 class SatuanResource extends Resource
 {
     protected static ?string $model = Satuan::class;
+    protected static ?string $navigationGroup = 'Data Barang';
+    protected static?string $navigationLabel = 'Satuan Barang';
+    protected static?string $pluralModelLabel = 'List Satuan Barang';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-scale';
 
     public static function form(Form $form): Form
     {
@@ -45,11 +49,9 @@ class SatuanResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make()
-                ->slideOver(true),
-                Tables\Actions\EditAction::make(),
-            ])
+            ->actions(
+                ActionTable::getActionTable()
+            )
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

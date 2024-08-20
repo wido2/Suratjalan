@@ -10,12 +10,13 @@ class Barang extends Model
     use HasFactory;
 
     protected $fillable=[
-        'nama_produk', 'id_kategori', 'id_supplier', 'stok', 'satuan', 'harga_beli', 'harga_jual'
+        'surat_jalan_id','produk_id','deskripsi','satuan_id'
     ];
 
     public function kategori()
     {
         return $this->belongsTo(Kategori::class, 'id_kategori');
     }
-    
+
+
 }

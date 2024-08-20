@@ -17,8 +17,11 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class KendaraanResource extends Resource
 {
     protected static ?string $model = Kendaraan::class;
+    protected static ?string $navigationGroup = 'Surat Jalan';
+    protected static?string $navigationLabel = 'Data Kendaraan';
+    protected static ?string $navigationIcon = 'heroicon-o-truck';
+    protected static?string $pluralModelLabel = 'Data Kendaraan';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {

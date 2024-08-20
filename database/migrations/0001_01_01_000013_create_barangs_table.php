@@ -13,11 +13,17 @@ return new class extends Migration
     {
         Schema::create('barangs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('surat_jalan_id');
-            $table->foreignId('produk')->constrained('produks')->cascadeOnDelete();
-            $table->string('deskripsi')->nullable();
-            $table->foreignId('satuan_id')->constrained('satuans')->cascadeOnDelete();
-            $table->decimal('harga',8,0);
+            $table->foreignId('surat_jalan_id')
+                ->constrained('surat_jalans')
+                ->cascadeOnDelete();
+            $table->foreignId('produk_id')
+                ->constrained('produks')
+                ->cascadeOnDelete();
+            $table->string('deskripsi')
+                ->nullable();
+            $table->foreignId('satuan_id')
+                ->constrained('satuans')
+                ->cascadeOnDelete();
             $table->timestamps();
         });
     }

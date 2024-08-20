@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use App\Http\Controllers\FormProduk;
+use App\Http\Controllers\ActionTable;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ProdukResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -17,8 +18,11 @@ use App\Filament\Resources\ProdukResource\RelationManagers;
 class ProdukResource extends Resource
 {
     protected static ?string $model = Produk::class;
+    protected static ?string $navigationGroup = 'Data Barang';
+    protected static?string $navigationLabel = 'Nama Produk';
+    protected static ?string $navigationIcon = 'heroicon-o-squares-plus';
+    protected static?string $pluralModelLabel = 'Data Produk';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
@@ -37,10 +41,9 @@ class ProdukResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-            ])
+            ->actions(
+                ActionTable::getActionTable()
+            )
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

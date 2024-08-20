@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->text('deskripsi');
+            $table->string('npwp')->nullable();
+            $table->text('deskripsi')->nullable();
             $table->timestamps();
         });
     }

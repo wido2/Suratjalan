@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\ProjectItemResource\Pages;
+namespace App\Filament\Resources\SuratJalanResource\Pages;
 
-use App\Filament\Resources\ProjectItemResource;
+use App\Filament\Resources\SuratJalanResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditProjectItem extends EditRecord
+class EditSuratJalan extends EditRecord
 {
-    protected static string $resource = ProjectItemResource::class;
+    protected static string $resource = SuratJalanResource::class;
 
     protected function getHeaderActions(): array
     {

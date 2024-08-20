@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('kategori_id')->constrained('kategoris')->cascadeOnDelete();
             $table->string('deskripsi')->nullable();
             $table->decimal('stok',8,0)->default(1);
-            $table->decimal('harga_beli',8,0)->nullable();
+            $table->decimal('harga_beli',14,0)->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

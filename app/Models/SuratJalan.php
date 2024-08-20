@@ -24,6 +24,10 @@ class SuratJalan extends Model
         'scan_surat' => 'array',
         'lampiran' => 'array',
     ];
+    public function barangs()
+    {
+        return $this->hasMany(Barang::class);
+    }
     public function customer()
     {
         return $this->belongsTo(Customer::class);
@@ -38,6 +42,10 @@ class SuratJalan extends Model
         return $this->belongsTo(Kendaraan::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
 
 }

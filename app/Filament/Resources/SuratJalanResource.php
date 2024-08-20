@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ProjectItemResource\Pages;
-use App\Filament\Resources\ProjectItemResource\RelationManagers;
-use App\Models\ProjectItem;
+use App\Filament\Resources\SuratJalanResource\Pages;
+use App\Filament\Resources\SuratJalanResource\RelationManagers;
+use App\Http\Controllers\SuratJalan as ControllersSuratJalan;
+use App\Models\SuratJalan;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,18 +14,21 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ProjectItemResource extends Resource
+class SuratJalanResource extends Resource
 {
-    protected static ?string $model = ProjectItem::class;
+    protected static ?string $model = SuratJalan::class;
+    protected static ?string $navigationGroup = 'Surat Jalan';
+    protected static?string $navigationLabel = 'Data Surat Jalan';
+    protected static?string $pluralModelLabel = 'Data Surat Jalan';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-document-check';
 
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                //
-            ]);
+            ->schema(
+                ControllersSuratJalan::getFormSuratJalan()
+            );
     }
 
     public static function table(Table $table): Table
@@ -57,10 +61,10 @@ class ProjectItemResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProjectItems::route('/'),
-            'create' => Pages\CreateProjectItem::route('/create'),
-            'view' => Pages\ViewProjectItem::route('/{record}'),
-            'edit' => Pages\EditProjectItem::route('/{record}/edit'),
+            'index' => Pages\ListSuratJalans::route('/'),
+            'create' => Pages\CreateSuratJalan::route('/create'),
+            'view' => Pages\ViewSuratJalan::route('/{record}'),
+            'edit' => Pages\EditSuratJalan::route('/{record}/edit'),
         ];
     }
 }

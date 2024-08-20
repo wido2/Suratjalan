@@ -17,8 +17,11 @@ use App\Filament\Resources\AddressResource\RelationManagers;
 class AddressResource extends Resource
 {
     protected static ?string $model = Address::class;
+    protected static ?string $navigationGroup = 'Data Customer';
+    protected static?string $navigationLabel = 'Alamat';
+    protected static?string $navigationIcon = 'heroicon-o-map';
+    protected static?string $pluralModelLabel = 'Data Alamat';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {

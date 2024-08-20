@@ -9,4 +9,17 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateProduk extends CreateRecord
 {
     protected static string $resource = ProdukResource::class;
+
+    public  function getHeading():string{
+        return 'Buat Produk Baru';
+    }
+    protected function getCreatedNotificationTitle(): ?string
+    {
+        return 'Produk Berhasil di Simpan';
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

@@ -9,7 +9,7 @@ class Customer extends Model
 {
     use HasFactory;
     protected $fillable=[
-        'nama', 'deskripsi',
+        'nama', 'deskripsi','npwp'
     ];
 
     public function kontak()

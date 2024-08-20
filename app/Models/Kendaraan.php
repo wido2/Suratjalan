@@ -12,11 +12,15 @@ class Kendaraan extends Model
         'nama', 'nomor_polisi', 'jenis_kendaraan',
 
     ];
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
+    }
 
     public function surat_jalan()
     {
         return $this->hasMany(SuratJalan::class);
     }
-    
+
 }
 

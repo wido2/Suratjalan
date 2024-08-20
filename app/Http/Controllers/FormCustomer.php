@@ -12,17 +12,24 @@ class FormCustomer extends Controller
     static function getFormCustomer():array{
         return [
             TextInput::make('nama')
-                ->required(),
+            ->required()
+            ->label('Nama Perusahaan')
+            ->placeholder('PT. Maju Kita Bisa'),
+            TextInput::make('npwp')
+            ->label('NPWP / Nomow Pokok Wajib Pajak')
+            ->mask('99.999.999.9-999.999')
+            ->placeholder('99.999.999.9-999.999'),
             Textarea::make('deskripsi')
-                ->required()
-                ->columnSpanFull()
+            ->columnSpanFull()
 
         ];
     }
     static function getTableCustomer():array {
         return [
             TextColumn::make('nama'),
+            TextColumn::make('npwp'),
             TextColumn::make('deskripsi')
+            ->limit(76)
         ];
     }
 }

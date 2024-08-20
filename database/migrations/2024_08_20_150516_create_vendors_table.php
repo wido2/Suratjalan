@@ -11,20 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kontaks', function (Blueprint $table) {
+        Schema::create('vendors', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('email')->unique()->nullable();
+            $table->string('npwp')->nullable();
+            $table->text('alamat')->nullable();
             $table->string('telepon')->nullable();
-            $table->string('jabatan')->nullable();
-            $table->foreignId('customer_id')
-            ->nullable()
-            ->constrained('customers')
-            ->cascadeOnDelete();
-            $table->foreignId('vendor_id')
-            ->nullable()
-            ->constrained('vendors')
-            ->cascadeOnDelete();
+            $table->string('fax')->nullable();
+            $table->string('email')->nullable();
+            $table->string('website')->nullable();
+            $table->foreignId('kontak_id')->constrained('kontaks')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -34,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kontaks');
+        Schema::dropIfExists('vendors');
     }
 };
