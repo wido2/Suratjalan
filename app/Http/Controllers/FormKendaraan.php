@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 
+use function Laravel\Prompts\search;
+
 class FormKendaraan extends Controller
 {
     static function getFormKendaraan():array{
@@ -15,6 +17,9 @@ class FormKendaraan extends Controller
             // Add form components for the kendaraan form
             Select::make('vendor_id')
             ->preload()
+            ->createOptionForm(
+                VendorController::getFormVendor()
+            )
             ->relationship('vendor','nama'),
             TextInput::make('nama')
             ->required(),
@@ -44,19 +49,49 @@ class FormKendaraan extends Controller
     static function getTableKendaraan():array {
         return [
             // Add table components for the kendaraan table
-            TextColumn::make('vendor.nama'),
-            TextColumn::make('nama'),
-            TextColumn::make('nomor_polisi'),
-            TextColumn::make('jenis_kendaraan'),
-            TextColumn::make('merk'),
-            TextColumn::make('tahun_pembuatan'),
-            TextColumn::make('warna'),
-            TextColumn::make('nomor_rangka'),
-            TextColumn::make('nomor_mesin'),
-            TextColumn::make('nomor_stnk'),
-            TextColumn::make('nomor_bpkb'),
-            TextColumn::make('tanggal_stnk'),
-            TextColumn::make('tanggal_bpkb'),
+            TextColumn::make('vendor.nama')
+            ->searchable(),
+            TextColumn::make('nama')
+            ->searchable()
+            ,
+            TextColumn::make('nomor_polisi')
+            ->searchable(),
+            TextColumn::make('jenis_kendaraan')
+            ->searchable()
+            ->sortable(),
+            TextColumn::make('merk')
+            ->searchable()
+            ->sortable(),
+            TextColumn::make('tahun_pembuatan')
+            ->searchable()
+            ->sortable(),
+            TextColumn::make('warna')
+            ->searchable()
+            ->sortable(),
+            TextColumn::make('nomor_rangka')
+            ->searchable()
+            ->sortable()
+            ->toggleable(isToggledHiddenByDefault:true),
+            TextColumn::make('nomor_mesin')
+            ->searchable()
+            ->sortable()
+            ->toggleable(isToggledHiddenByDefault:true),
+            TextColumn::make('nomor_stnk')
+            ->searchable()
+            ->sortable()
+            ->toggleable(isToggledHiddenByDefault:true),
+            TextColumn::make('nomor_bpkb')
+            ->searchable()
+            ->sortable()
+            ->toggleable(isToggledHiddenByDefault:true),
+            TextColumn::make('tanggal_stnk')
+            ->sortable()
+            ->searchable()
+            ->toggleable(isToggledHiddenByDefault:true),
+            TextColumn::make('tanggal_bpkb')
+            ->searchable()
+            ->sortable()
+            ->toggleable(isToggledHiddenByDefault:true),
         ];
     }
 }

@@ -20,7 +20,7 @@ class Vendor extends Model
     ];
     public function kontak()
     {
-        return $this->belongsTo(Kontak::class);
+        return $this->hasMany(Kontak::class);
     }
 
     public function kendaraan()

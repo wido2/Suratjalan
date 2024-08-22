@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Http\Request;
 
 
@@ -30,10 +31,21 @@ class VendorController extends Controller
             ->placeholder('https://example.com')
             ->url()
             ->label('Website'),
-            Select::make('kontak_id')
-            ->label('Kontak Person')
-            ->relationship('kontak','nama')
+            // Select::make('kontak_id')
+            // ->label('Kontak Person')
+            // ->relationship('kontak','nama')
 
+        ];
+    }
+    static function getTableVendor():array{
+        return [
+            TextColumn::make('nama')->label('Nama Vendor'),
+            Textcolumn::make('npwp')->label('NPWP'),
+            Textcolumn::make('alamat')->label('Alamat'),
+            Textcolumn::make('telp')->label('Telepon'),
+            Textcolumn::make('email')->label('Email'),
+            Textcolumn::make('website')->label('Website'),
+            // TextInput::make('kontak.nama')->label('Kontak Person'),
         ];
     }
 }

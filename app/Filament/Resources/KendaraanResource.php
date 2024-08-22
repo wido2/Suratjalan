@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\KendaraanResource\Pages;
 use App\Filament\Resources\KendaraanResource\RelationManagers;
+use App\Http\Controllers\ActionTable;
 use App\Http\Controllers\FormKendaraan;
 use App\Models\Kendaraan;
 use Filament\Forms;
@@ -38,12 +39,9 @@ class KendaraanResource extends Resource
                 FormKendaraan::getTableKendaraan()
             )
             ->filters([
-                //
+                
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-            ])
+            ->actions(ActionTable::getActionTable())
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

@@ -14,6 +14,8 @@ use App\Http\Controllers\VendorController;
 use App\Filament\Resources\VendorResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\VendorResource\RelationManagers;
+use App\Filament\Resources\VendorResource\RelationManagers\KendaraanRelationManager;
+use App\Filament\Resources\VendorResource\RelationManagers\KontakRelationManager;
 
 class VendorResource extends Resource
 {
@@ -33,9 +35,9 @@ class VendorResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
-                //
-            ])
+            ->columns(
+                VendorController::getTableVendor()
+            )
             ->filters([
                 //
             ])
@@ -53,7 +55,8 @@ class VendorResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            KontakRelationManager::class,
+            KendaraanRelationManager::class
         ];
     }
 

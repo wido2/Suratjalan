@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('fax')->nullable();
             $table->string('email')->nullable();
             $table->string('website')->nullable();
-            $table->foreignId('kontak_id')->constrained('kontaks')->cascadeOnDelete();
+            // $table->foreignId('kontak_id')->constrained('kontaks')->cascadeOnDelete();
             $table->timestamps();
         });
     }
