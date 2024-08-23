@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\KendaraanResource\Pages;
 use App\Filament\Resources\KendaraanResource\RelationManagers;
+use App\Filament\Resources\KendaraanResource\RelationManagers\SuratJalanRelationManager;
 use App\Http\Controllers\ActionTable;
 use App\Http\Controllers\FormKendaraan;
 use App\Models\Kendaraan;
@@ -39,7 +40,7 @@ class KendaraanResource extends Resource
                 FormKendaraan::getTableKendaraan()
             )
             ->filters([
-                
+
             ])
             ->actions(ActionTable::getActionTable())
             ->bulkActions([
@@ -52,7 +53,7 @@ class KendaraanResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            SuratJalanRelationManager::class
         ];
     }
 

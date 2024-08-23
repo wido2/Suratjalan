@@ -21,6 +21,12 @@ class FormAddress extends Controller
             Select::make('customer_id')
             ->required()
             ->searchable()
+            ->createOptionForm(
+                FormCustomer::getFormCustomer()
+            )
+            ->editOptionForm(
+                FormCustomer::getFormCustomer()
+            )
             ->preload()
             ->relationship('customer','nama'),
 
@@ -30,7 +36,8 @@ class FormAddress extends Controller
             ->label('Provinsi')
             ->required(),
             TextInput::make('country')
-            ->label('Negara'),
+            ->label('Negara')
+            ->default('Indonesia'),
             TextInput::make('zip_code')
             ->label('Kode Pos')
             ->numeric()
@@ -60,7 +67,7 @@ class FormAddress extends Controller
                     'Warehouse' => 'primary',
                     'Other' => 'warning',
                 ])
-                ->default('Office') 
+                ->default('Office')
             ->inline()
             ->columnSpanFull()
             ,
@@ -78,7 +85,7 @@ class FormAddress extends Controller
             ->label('Customer'),
             TextColumn::make('city'),
             TextColumn::make('state'),
-            TextColumn::make('country'),
+            TextColumn::make('address_type'),
             TextColumn::make('zip_code'),
             TextColumn::make('street')
             ->limit(50),

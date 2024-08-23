@@ -2,20 +2,66 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Section;
+use Illuminate\Support\Carbon as SupportCarbon;
 
 class SuratJalan extends Controller
 {
     static function getFormSuratJalan():array {
         return [
+
+            Wizard::make([
+                Wizard\Step::make('Informasi Pengirim')
+                    ->schema([
+                    TextInput::make('nomor_surat_jalan')
+                        ->required()
+                        ->label('Nomor Surat Jalan'),
+                    DatePicker::make('tanggal_pengiriman')
+                        ->label('Tanggal Pengiriman')
+                        ->required()
+                        ->native(false),
+                    Select::make('Pengirim')
+                        ->preload()
+                        ->required()
+                        ->label('Pengirim')
+                        ->relationship('user','name'),
+
+                    ]),
+                Wizard\Step::make('Delivery')
+                    ->schema([
+                    Select::make('customer_id')
+                        ->preload()
+                        ->label('Nama Customer')
+                        ->relationship('customer','nama')
+                        ->required(),
+                    Select::make('kontak_id')
+                        ->preload()
+                        ->required()
+                        ->relationship('kontak','nama')
+                        ->label('Penerima'),
+                    Select::make('address')
+                        ->columnSpanFull()
+                        ->required()
+                        ->label('Alamat Penerima'),
+                    ]),
+                Wizard\Step::make('Billing')
+                    ->schema([
+                        // ...
+                    ]),
+                ])
+                ->columnSpanFull(),
+
+
 
     Tabs::make('Tabs')
     ->columnSpanFull()
@@ -36,7 +82,7 @@ class SuratJalan extends Controller
         Tab::make('Informasi Penerima')
             ->icon('heroicon-o-map-pin')
             ->schema([
-                Select::make('customer_id')
+            Select::make('customer_id')
             ->preload()
             ->label('Nama Customer')
             ->relationship('customer','nama')
@@ -77,8 +123,8 @@ class SuratJalan extends Controller
 
     Section::make('Detail Barang ')
     ->schema([
-            Repeater::make('')
-    ])
+            Repeater::make('barangs')
+             ])
 
         ];
     }

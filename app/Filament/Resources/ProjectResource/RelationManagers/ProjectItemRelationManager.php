@@ -2,10 +2,12 @@
 
 namespace App\Filament\Resources\ProjectResource\RelationManagers;
 
+use App\Http\Controllers\ActionTable;
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use App\Http\Controllers\FormSatuan;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Textarea;
@@ -37,6 +39,9 @@ class ProjectItemRelationManager extends RelationManager
                 ->columnSpan(1)
                 ->searchable()
                 ->preload()
+                ->createOptionForm(
+                    FormSatuan::getFormSatuan()
+                )
                 ->placeholder('Satuan')
                 ->relationship(
                     'satuan',
@@ -74,10 +79,7 @@ class ProjectItemRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
+            ->actions(ActionTable::getActionTable())
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

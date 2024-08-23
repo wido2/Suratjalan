@@ -15,11 +15,23 @@ class FormKontak extends Controller
             // ->required()
             ->searchable()
             ->preload()
+            ->editOptionForm(
+                FormCustomer::getFormCustomer()
+            )
+            ->createOptionForm(
+                FormCustomer::getFormCustomer()
+            )
             ->label('Customer')
             ->relationship('customer','nama')
             ,
             Select::make('vendor_id')
             ->searchable()
+            ->editOptionForm(
+                VendorController::getFormVendor()
+            )
+            ->createOptionForm(
+                VendorController::getFormVendor()
+            )
             ->preload()
             ->label('Vendor')
             ->relationship('vendor','nama'),
@@ -27,7 +39,7 @@ class FormKontak extends Controller
             ->required()
             ->maxLength(255),
             TextInput::make('email')
-            ->required()
+            // ->required()
             ->email()
             ->maxLength(255),
             TextInput::make('telepon')
