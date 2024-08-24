@@ -17,6 +17,19 @@ class Barang extends Model
     {
         return $this->belongsTo(Kategori::class, 'id_kategori');
     }
+    public function surat_jalan()
+    {
+        return $this->belongsTo(SuratJalan::class);
+    }
+    public function produk()
+    {
+        return $this->belongsTo(Produk::class);
+    }
+    public function satuan()
+    {
+        return $this->belongsTo(Satuan::class);
+    }
+    
 
 
 }

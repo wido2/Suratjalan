@@ -28,6 +28,9 @@ return new class extends Migration
             $table->string('nomor_bpkb')->nullable();
             $table->date('tanggal_stnk')->nullable();
             $table->date('tanggal_bpkb')->nullable();
+            $table->json('scan_stnk')->nullable();
+            $table->json('scan_bpkb')->nullable();
+            $table->json('foto_kendaraan')->nullable();
             $table->timestamps();
         });
     }

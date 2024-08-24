@@ -9,7 +9,8 @@ class Kendaraan extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'vendor_id','nama', 'nomor_polisi',
+        'vendor_id','nama',
+         'nomor_polisi',
         'jenis_kendaraan',
         'merk',
         'tahun_pembuatan',
@@ -19,8 +20,24 @@ class Kendaraan extends Model
         'nomor_stnk',
         'nomor_bpkb',
         'tanggal_stnk',
-        'tanggal_bpkb'
+        'tanggal_bpkb',
+        'scan_stnk',
+        'scan_bpkb',
+        'foto_kendaraan',
     ];
+    protected $casts =[
+        'scan_stnk' => 'array',
+        'scan_bpkb' => 'array',
+        'foto_kendaraan' => 'array',
+    ];
+    public function driver()
+    {
+        return $this->hasOne(Driver::class);
+    }
+    public function customer()
+    {
+        return $this->hasMany(Customer::class);
+    }
     public function vendor()
     {
         return $this->belongsTo(Vendor::class);

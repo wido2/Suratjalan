@@ -16,13 +16,13 @@ class Address extends Model
     'country',
     'zip_code',
     'is_primary',
-    'address_type'  
+    'address_type'
 ];
 
     public function customer()
     {
         return $this->belongsTo(Customer::class);
     }
-
+    
 
 }
