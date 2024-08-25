@@ -28,7 +28,8 @@ class VendorController extends Controller
             ->mask('99.999.999.9-999.999')
             ->placeholder('99.999.999.9-999.999'),
             Textarea::make('alamat'),
-            TextInput::make('telp')
+            TextInput::make('telepon')
+            ->label('Telepon')
             ->placeholder('081234567890'),
             TextInput::make('email')
             ->email()
@@ -46,13 +47,13 @@ class VendorController extends Controller
 
         ];
     }
-    
+
     static function getTableVendor():array{
         return [
             TextColumn::make('nama')->label('Nama Vendor'),
             Textcolumn::make('npwp')->label('NPWP'),
             Textcolumn::make('alamat')->label('Alamat'),
-            Textcolumn::make('telp')->label('Telepon'),
+            Textcolumn::make('telepon')->label('Telepon'),
             Textcolumn::make('email')->label('Email'),
             Textcolumn::make('website')->label('Website'),
             // TextInput::make('kontak.nama')->label('Kontak Person'),

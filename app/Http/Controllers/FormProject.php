@@ -35,9 +35,10 @@ class FormProject extends Controller
             )
             ,
             DatePicker::make('tanggal_mulai')
-                ->required(),
+                ->required()
+                ->default(date(now())),
             DatePicker::make('tanggal_selesai')
-                ->required(),
+            ,
             ToggleButtons::make('status')
             ->default('On Progress')
             ->options([

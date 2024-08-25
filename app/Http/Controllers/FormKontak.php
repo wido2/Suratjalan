@@ -43,8 +43,11 @@ class FormKontak extends Controller
                 ->relationship('vendor','nama'),
 
             ]),
-
-            TextInput::make('nama')
+            Section::make('Detail Kontak')
+            ->collapsible()
+            ->columns(2)
+            ->schema([
+                TextInput::make('nama')
             ->required()
             ->maxLength(255),
             TextInput::make('email')
@@ -58,7 +61,7 @@ class FormKontak extends Controller
             ->required()
             ->maxLength(255),
 
-            // Add other fields as needed
+            ]),
 
         ];
     }
