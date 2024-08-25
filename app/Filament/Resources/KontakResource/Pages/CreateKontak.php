@@ -9,4 +9,8 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateKontak extends CreateRecord
 {
     protected static string $resource = KontakResource::class;
+    protected function getRedirectUrl(): string
+    {
+        return $this->previousUrl ?? $this->getResource()::getUrl('index');
+    }
 }

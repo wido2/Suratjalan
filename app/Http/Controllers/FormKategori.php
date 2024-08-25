@@ -31,7 +31,7 @@ class FormKategori extends Controller
                 ->unique(),
                 Textarea::make('deskripsi')
                 ->columnSpanFull()
-                ->required()
+                // ->required()
                 ->maxLength(255),
                 Toggle::make('is_active')
                 ->default(true),

@@ -18,4 +18,5 @@ class CreateSatuan extends CreateRecord
         return 'Buat Satuan Barang';
 
     }
+   
 }

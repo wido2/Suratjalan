@@ -9,7 +9,7 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateProduk extends CreateRecord
 {
     protected static string $resource = ProdukResource::class;
-    
+
 
     public  function getHeading():string{
         return 'Buat Produk Baru';
@@ -18,9 +18,8 @@ class CreateProduk extends CreateRecord
     {
         return 'Produk Berhasil di Simpan';
     }
-
     protected function getRedirectUrl(): string
     {
-        return $this->getResource()::getUrl('index');
+        return $this->previousUrl ?? $this->getResource()::getUrl('index');
     }
 }

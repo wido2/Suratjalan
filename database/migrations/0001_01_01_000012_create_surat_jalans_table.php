@@ -20,8 +20,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->date('tanggal_pengiriman');
             $table->foreignId('kendaraan_id')->constrained('kendaraans')->cascadeOnDelete();
-            $table->json('scan_surat');
-            $table->json('lampiran');
+            $table->json('scan_surat')->nullable();
+            $table->json('lampiran')->nullable();
             $table->timestamps();
         });
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Driver;
 use App\Models\Address;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
@@ -16,9 +17,11 @@ use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Tabs\Tab;
 use Filament\Tables\Columns\TextColumn;
+use function PHPUnit\Framework\isEmpty;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\DatePicker;
@@ -27,13 +30,12 @@ use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Wizard\Step;
 use Filament\Infolists\Components\TextEntry;
 use App\Models\SuratJalan as ModelsSuratJalan;
-use Filament\Forms\Components\Fieldset;
+use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Contracts\HasInfolists;
 use Illuminate\Support\Carbon as SupportCarbon;
+
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Filament\Infolists\Concerns\InteractsWithInfolists;
-
-use function PHPUnit\Framework\isEmpty;
 
 class SuratJalan extends Controller
 {
@@ -60,21 +62,59 @@ class SuratJalan extends Controller
                             ->relationship('user', 'name'),
                     ]),
                 Step::make('Penerima')
+                    ->columns(2 )
                     ->icon('heroicon-o-map')
-                    ->description('Alamat, Kontak')
+                    ->description('Alamat, Kontak Penerima')
                     ->schema([
                         Select::make('customer_id')
                         ->preload()
-                        ->reactive()
+                        ->placeholder('Pilih Customer')
+                        ->live()
+                        ->createOptionForm(
+                            FormCustomer::getFormCustomer()
+                        )
+                        ->editOptionForm(
+                            FormCustomer::getFormCustomer()
+                        )
                         ->searchable()
                         ->label('Nama Customer')
                         ->relationship('customer', 'nama')
                         ->required(),
                         Select::make('kontak_id')
                         ->preload()
+                        ->hidden(fn (Get $get ):bool =>! $get('customer_id'))
+                        ->placeholder('Pilih Penerima')
+                        ->createOptionForm(
+                            FormKontak::getFormKontak()
+                        )
+                        ->editOptionForm(
+                            FormKontak::getFormKontak()
+                        )
                         ->searchable()
                         ->required()
-                        ->relationship('kontak', 'nama', fn(Builder $query, Get $get) => $query->where('customer_id', $get('customer_id'))->where('vendor_id', null))->label('Penerima'), Select::make('address')->columnSpanFull()->searchable()->preload()->required()->placeholder('Pilih Customer terlebih dahulu')->relationship('address', 'street', fn(Builder $query, Get $get) => $query->where('customer_id', $get('customer_id'))->where('address_type', 'Warehouse'))->label('Alamat Penerima')]),
+                        ->relationship('kontak', 'nama',
+                        fn(Builder $query, Get $get) =>
+                            $query->where('customer_id', $get('customer_id'))
+                            )
+                        ->label('Penerima'),
+                        Select::make('address')
+                        ->hidden(fn (Get $get):bool =>! $get('kontak_id'))
+                        ->columnSpanFull()
+                        ->searchable()
+                        ->preload()
+                        ->required()
+                        ->placeholder('Pilih Customer terlebih dahulu')
+                        ->relationship(
+                            'address', 'street',
+                        fn(Builder $query, Get $get) =>
+                            $query->where('customer_id', $get('customer_id'))
+                            ->where('address_type', 'Warehouse')
+                            )
+                        ->label('Alamat Penerima')
+                        ->createOptionForm(
+                            FormAddress::getFormAddress()
+                        )
+                    ]),
 
                 Step::make('Detail')
                     ->icon('heroicon-o-truck')
@@ -84,14 +124,23 @@ class SuratJalan extends Controller
                         Select::make('kendaraan_id')
                             ->preload()
                             ->searchable()
-                            // ->reactive()
+                            ->createOptionForm(
+                                FormKendaraan::getFormKendaraan()
+                            )
+                            ->editOptionForm(
+                                FormKendaraan::getFormKendaraan()
+                            )
                             ->live()
                             // ->default(1)
 
                             ->label('Kendaraan')
                             ->relationship('kendaraan', 'nomor_polisi')
                             ->required(),
-                        Select::make('driver_id'),
+                        Select::make('driver_id')
+                        ->relationship('driver','nama')
+                        ->preload()
+                        ->live()
+                        ->searchable(),
                         Section::make('Detail informasi Kendaraan')
                         ->collapsible()
                         ->collapsed()
@@ -226,12 +275,162 @@ class SuratJalan extends Controller
 
 
                             ]),
-                    ]),
+                        Section::make('Informasi Driver')
+                        ->collapsed()
+                        ->columns(3)
+                        ->description('KTP, SIM, Alamat, No Telpon, dll')
+                        ->schema([
+                                Placeholder::make('Nama')
+                                ->content(
+                                    function (Get $get): string {
+                                        $driver = Driver::find($get('driver_id'));
+                                        if (!$driver){
+                                            return 'Pilih Driver terlebih dahulu';
+                                        }
+                                        if($driver->nama==null){
+                                            return 'Nama driver tidak ada';
+                                        }
+                                        else {
+                                            return $driver? $driver->nama : '';
+                                        }
+                                    }),
+                                Placeholder::make('Telepon')
+                                ->content(
+                                    function (Get $get): string {
+                                        $driver = Driver::find($get('driver_id'));
+                                        if (!$driver){
+                                            return 'Pilih Driver terlebih dahulu';
+                                        }
+                                        if($driver->telepon==null){
+                                            return 'No Telepon driver tidak ada';
+                                        }
+                                        else {
+                                            return $driver? $driver->telepon : '';
+                                        }
+                                    }),
+                                Placeholder::make('KTP')
+                                ->label('No. Kartu Tanda Penduduk ( KTP )')
+                                ->content(
+                                    function (Get $get): string {
+                                        $driver = Driver::find($get('driver_id'));
+                                        if (!$driver){
+                                            return 'Pilih Driver terlebih dahulu';
+                                        }
+                                        if($driver->ktp==null){
+                                            return 'KTP driver tidak ada';
+                                        }
+                                        else {
+                                            return $driver? $driver->ktp : '';
+                                        }
+                                    }),
+                                Placeholder::make('SIM')
+                                ->label('Nomor Surat Ijin Mengemudi ( SIM )')
+                                ->content(
+                                    function (Get $get): string {
+                                        $driver = Driver::find($get('driver_id'));
+                                        if (!$driver){
+                                            return 'Pilih Driver terlebih dahulu';
+                                        }
+                                        if($driver->sim==null){
+                                            return 'SIM driver tidak ada';
+                                        }
+                                        else {
+                                            return $driver? $driver->sim : '';
+                                        }
+                                    }),
+                                Placeholder::make('Alamat')
+                                ->content(
+                                    function (Get $get): string {
+                                        $driver = Driver::find($get('driver_id'));
+                                        if (!$driver){
+                                            return 'Pilih Driver terlebih dahulu';
+                                        }
+                                        if($driver->alamat==null){
+                                            return 'Alamat driver tidak ada';
+                                        }
+                                        else {
+                                            return $driver? $driver->alamat : '';
+                                        }
+                                    }),
+                                Placeholder::make('Tanggal Lahir')
+                                ->content(
+                                    function (Get $get): string {
+                                        $driver = Driver::find($get('driver_id'));
+                                        if (!$driver){
+                                            return 'Pilih Driver terlebih dahulu';
+                                        }
+                                        if($driver->tanggal_lahir==null){
+                                            return 'Tanggal Lahir driver tidak ada';
+                                        }
+                                        else {
+                                            return $driver? $driver->tanggal_lahir : '';
+                                        }
+                                    }),
+                                Placeholder::make('Tempat Lahir')
+                                ->content(
+                                    function (Get $get): string {
+                                        $driver = Driver::find($get('driver_id'));
+                                        if (!$driver){
+                                            return 'Pilih Driver terlebih dahulu';
+                                        }
+                                        if($driver->tempat_lahir==null){
+                                            return 'Tempat Lahir driver tidak ada';
+                                        }
+                                        else {
+                                            return $driver? $driver->tempat_lahir : '';
+                                        }
+                                    }),
+                                Placeholder::make('Email')
+                                ->content(
+                                    function (Get $get): string {
+                                        $driver = Driver::find($get('driver_id'));
+                                        if (!$driver){
+                                            return 'Pilih Driver terlebih dahulu';
+                                        }
+                                        if($driver->email==null){
+                                            return 'Email driver tidak ada';
+                                        }
+                                        else {
+                                            return $driver? $driver->email : '';
+                                        }
+                                    }),
+                                Placeholder::make('agama')
+                                ->content(
+                                    function (Get $get): string {
+                                        $driver = Driver::find($get('driver_id'));
+                                        if (!$driver){
+                                            return 'Pilih Driver terlebih dahulu';
+                                        }
+                                        if($driver->agama==null){
+                                            return 'Agama driver tidak ada';
+                                        }
+                                        else {
+                                            return $driver? $driver->agama : '';
+                                        }
+                                    }),
+
+
+
+
+
+                            ])
+
+                        ]),
 
                 Step::make('Lampiran')
                     ->icon('heroicon-o-paper-clip')
                     ->description('Scan')
-                    ->schema([FileUpload::make('scan_surat')->label('Lampiran')->multiple()->required()->maxFiles(5), FileUpload::make('lampiran')->label('lampiran')->multiple()->required()->maxFiles(5)]),
+                    ->schema([
+                        FileUpload::make('scan_surat')
+                        ->label('Lampiran')
+                        ->multiple()
+                        // ->required()
+                        ->maxFiles(5),
+                        FileUpload::make('lampiran')
+                        ->label('lampiran')
+                        ->multiple()
+                        ->required()
+                        ->maxFiles(5)]),
 
                 Step::make('Barang')
                     ->icon('heroicon-o-squares-plus')
@@ -242,7 +441,7 @@ class SuratJalan extends Controller
                             ->schema([Select::make('produk_id')->required()->searchable()->preload()->relationship('produk', 'nama'), Select::make('satuan_id')->required()->searchable()->preload()->relationship('satuan', 'nama'), TextInput::make('deskripsi')]),
                     ]),
             ])
-                ->startOnStep(3)
+                ->startOnStep(2)
                 ->columnSpanFull(),
         ];
     }
