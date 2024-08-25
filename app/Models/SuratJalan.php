@@ -16,6 +16,7 @@ class SuratJalan extends Model
         'user_id',
         'tanggal_pengiriman',
         'kendaraan_id',
+        'driver_id',
         'scan_surat',
         'lampiran',
     ];
@@ -24,6 +25,10 @@ class SuratJalan extends Model
         'scan_surat' => 'array',
         'lampiran' => 'array',
     ];
+    public function driver()
+    {
+        return $this->belongsTo(Driver::class);
+    }
     public function barangs()
     {
         return $this->hasMany(Barang::class);

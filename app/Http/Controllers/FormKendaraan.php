@@ -19,27 +19,40 @@ use Filament\Forms\Components\Placeholder;
 
 class FormKendaraan extends Controller
 {
+
+
     static function getFormKendaraan(): array
     {
+
         return [
             Section::make('Data Vendor')
-            ->collapsed()
-                ->description('Prevent abuse by limiting the number of requests per period')
-                ->schema([
+            ->collapsible()
+            ->description('Pilih data vendor yang sesuai')
+            ->schema([
                     Select::make('vendor_id')
                     ->live()
-                    ->preload()->searchable()->createOptionForm(VendorController::getFormVendor())->relationship('vendor', 'nama'),
+                    ->preload()->searchable()
+                    ->createOptionForm(VendorController::getFormVendor())
+                    ->editOptionForm(
+                        VendorController::getFormVendor()
+                    )
+                    ->relationship('vendor', 'nama'),
                     Fieldset::make('Data Vendor')
                     ->schema([
                         Placeholder::make('nama')
                         ->content(
                             function (Get $get): string {
-                                $vendor = Vendor::find($get('vendor_id'));
-                                if (!$vendor){
+                                $vendor =Vendor::find($get('vendor_id'));
+                               if ($vendor==null) {
                                     return 'Pilih Vendor terlebih dahulu';
-                                }else {
-                                    return $vendor? $vendor->nama : '';
-                                }
+                               }
+                               if($vendor->nama==null){
+                                return 'Nama vendor tidak terssedia';
+                               }
+                               else {
+                                return $vendor? $vendor->nama : '';
+                               }
+
                             }
                         ),
                         Placeholder::make('npwp')
@@ -49,7 +62,11 @@ class FormKendaraan extends Controller
                                 $vendor = Vendor::find($get('vendor_id'));
                                 if ($vendor==null) {
                                     return 'Pilih Vendor terlebih dahulu';
-                                } else {
+                                }
+                                if($vendor->npwp==null){
+                                    return 'Non PKP';
+                                }
+                                else {
                                     return $vendor? $vendor->npwp : 'Non PKP';
 
                                 }
@@ -60,40 +77,113 @@ class FormKendaraan extends Controller
                                 $vendor = Vendor::find($get('vendor_id'));
                                 if (!$vendor){
                                     return 'Pilih Vendor terlebih dahulu';
-                                } else {
+                                }
+                                if($vendor==null){
+                                    return 'Alamat vendor tidak tersedaia';
+                                }
+                                else {
                                     return $vendor? $vendor->alamat : '';
                                 }
                             }
                         )
                             ,
-                        Placeholder::make('telepon'),
-                        Placeholder::make('fax'),
-                        Placeholder::make('email'),
-                        Placeholder::make('website'),
-                        Placeholder::make('kontak_id')
+                        Placeholder::make('telepon')
+                        ->content(
+                            function (Get $get): string {
+                                $vendor = Vendor::find($get('vendor_id'));
+                                if ($vendor==null) {
+                                    return 'Pilih Vendor terlebih dahulu';
+                                }
+                                if($vendor->telepon==null){
+                                    return 'Nomor Telepon vendor tidak tersedia';
+                                }
+                                else {
+                                    return $vendor? $vendor->telepon : '';
+                                }
+                            }),
+                        Placeholder::make('fax')
+                        ->content(
+                            function (Get $get): string {
+                                $vendor = Vendor::find($get('vendor_id'));
+                                if ($vendor==null) {
+                                    return 'Pilih Vendor terlebih dahulu';
+                                }
+                                if($vendor->fax==null){
+                                    return 'Nomor Fax vendor tidak tersedia';
+                                }
+                                else {
+                                    return $vendor? $vendor->fax : '';
+                                }
+                            })
+                            ->label('Nomor Fax'),
+
+                        Placeholder::make('email')
+                        ->content(
+                            function (Get $get): string {
+                                $vendor = Vendor::find($get('vendor_id'));
+                                if ($vendor==null) {
+                                    return 'Pilih Vendor terlebih dahulu';
+                                }
+                                if($vendor->email==null){
+                                    return 'Email vendor tidak tersedia';
+                                }
+                                else {
+                                    return $vendor? $vendor->email : '';
+                                }
+                            })
+                            ->label('Email'),
+                        Placeholder::make('website')
+                        ->content(
+                            function (Get $get): string {
+                                $vendor = Vendor::find($get('vendor_id'));
+                                if ($vendor==null) {
+                                    return 'Pilih Vendor terlebih dahulu';
+                                }
+                                if($vendor->website==null){
+                                    return 'Website vendor tidak tersedia';
+                                }
+                                else {
+                                    return $vendor? $vendor->website : '';
+                                }
+                            })
+                            ->label('Website'),
+                        // Placeholder::make('kontak.nama'),
+                        // Placeholder::make('kontak_id')
 
 
-                    ])->columns(3)
+                    ])
 
-                ]),
-            TextInput::make('nama')->required(),
-            TextInput::make('nomor_polisi')->required(),
-            TextInput::make('jenis_kendaraan')->required(),
-            TextInput::make('merk')->required(),
-            DatePicker::make('tahun_pembuatan'),
-            TextInput::make('warna'),
-            TextInput::make('nomor_rangka'),
-            TextInput::make('nomor_mesin'),
-            TextInput::make('nomor_stnk')->label('Nomot STNK'),
-            TextInput::make('nomor_bpkb')->label('Nomor BPKB'),
-            DatePicker::make('tanggal_stnk')->label('Tanggal STNK'),
-            DatePicker::make('tanggal_bpkb')->label('Tanggal BPKB'),
+                ])->columns(2),
+
+
+                Section::make('Data Kendaraan')
+                ->description('Data Sesuai STNK')
+            ->schema([
+                TextInput::make('nama')->required(),
+                TextInput::make('nomor_polisi')->required(),
+                TextInput::make('jenis_kendaraan')->required(),
+                TextInput::make('merk')->required(),
+                DatePicker::make('tahun_pembuatan'),
+                TextInput::make('warna'),
+                TextInput::make('nomor_rangka'),
+                TextInput::make('nomor_mesin'),
+                TextInput::make('nomor_stnk')->label('Nomot STNK'),
+                TextInput::make('nomor_bpkb')->label('Nomor BPKB'),
+                DatePicker::make('tanggal_stnk')->label('Tanggal STNK'),
+                DatePicker::make('tanggal_bpkb')->label('Tanggal BPKB'),
+            ])
+            ->columns(3)
+            ->collapsible(),
+
             Section::make('Data Gambar')
-                ->description('Lampirkan data gambar hasil foto dan Scan Kendaraan, max file size 3Mb')
-                ->schema([
+            ->collapsible()
+            ->columns(2 )
+            ->description('Lampirkan data gambar hasil foto dan Scan Kendaraan, max file size 3Mb')
+            ->schema([
                     FileUpload::make('scan_stnk')->multiple()->image()->maxSize(4080)->maxFiles(2)->label('Scan STNK'),
                     FileUpload::make('scan_bpkb')->multiple()->image()->maxFiles(7)->maxSize(4080)->label('Scan BPKB'),
-                    FileUpload::make('foto_kendaraan')->multiple()->image()->maxSize(4080)->label('Foto Kendaraan')]),
+                    FileUpload::make('foto_kendaraan')->multiple()->image()->maxSize(4080)->label('Foto Kendaraan')
+                ->columnSpanFull()]),
         ];
     }
     static function getTableKendaraan(): array

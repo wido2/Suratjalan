@@ -30,6 +30,7 @@ class KendaraanResource extends Resource
         return $form
             ->schema(
                 FormKendaraan::getFormKendaraan()
+                
             );
     }
 

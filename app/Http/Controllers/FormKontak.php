@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
@@ -11,30 +12,38 @@ class FormKontak extends Controller
 {
     static function getFormKontak():array{
         return [
-            Select::make('customer_id')
-            // ->required()
-            ->searchable()
-            ->preload()
-            ->editOptionForm(
-                FormCustomer::getFormCustomer()
-            )
-            ->createOptionForm(
-                FormCustomer::getFormCustomer()
-            )
-            ->label('Customer')
-            ->relationship('customer','nama')
-            ,
-            Select::make('vendor_id')
-            ->searchable()
-            ->editOptionForm(
-                VendorController::getFormVendor()
-            )
-            ->createOptionForm(
-                VendorController::getFormVendor()
-            )
-            ->preload()
-            ->label('Vendor')
-            ->relationship('vendor','nama'),
+            Section::make('Jenis Kontak')
+            ->description('Pilih Jenis Kontak ( Customer / Vendor ) pilih satu  ')
+            ->columns(2)
+            ->collapsible()
+            ->schema([
+                Select::make('customer_id')
+                // ->required()
+                ->searchable()
+                ->preload()
+                ->editOptionForm(
+                    FormCustomer::getFormCustomer()
+                )
+                ->createOptionForm(
+                    FormCustomer::getFormCustomer()
+                )
+                ->label('Customer')
+                ->relationship('customer','nama')
+                ,
+                Select::make('vendor_id')
+                ->searchable()
+                ->editOptionForm(
+                    VendorController::getFormVendor()
+                )
+                ->createOptionForm(
+                    VendorController::getFormVendor()
+                )
+                ->preload()
+                ->label('Vendor')
+                ->relationship('vendor','nama'),
+
+            ]),
+
             TextInput::make('nama')
             ->required()
             ->maxLength(255),

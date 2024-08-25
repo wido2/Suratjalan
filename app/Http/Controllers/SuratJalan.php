@@ -62,11 +62,24 @@ class SuratJalan extends Controller
                 Step::make('Penerima')
                     ->icon('heroicon-o-map')
                     ->description('Alamat, Kontak')
-                    ->schema([Select::make('customer_id')->preload()->reactive()->searchable()->label('Nama Customer')->relationship('customer', 'nama')->required(), Select::make('kontak_id')->preload()->searchable()->required()->relationship('kontak', 'nama', fn(Builder $query, Get $get) => $query->where('customer_id', $get('customer_id'))->where('vendor_id', null))->label('Penerima'), Select::make('address')->columnSpanFull()->searchable()->preload()->required()->placeholder('Pilih Customer terlebih dahulu')->relationship('address', 'street', fn(Builder $query, Get $get) => $query->where('customer_id', $get('customer_id'))->where('address_type', 'Warehouse'))->label('Alamat Penerima')]),
+                    ->schema([
+                        Select::make('customer_id')
+                        ->preload()
+                        ->reactive()
+                        ->searchable()
+                        ->label('Nama Customer')
+                        ->relationship('customer', 'nama')
+                        ->required(),
+                        Select::make('kontak_id')
+                        ->preload()
+                        ->searchable()
+                        ->required()
+                        ->relationship('kontak', 'nama', fn(Builder $query, Get $get) => $query->where('customer_id', $get('customer_id'))->where('vendor_id', null))->label('Penerima'), Select::make('address')->columnSpanFull()->searchable()->preload()->required()->placeholder('Pilih Customer terlebih dahulu')->relationship('address', 'street', fn(Builder $query, Get $get) => $query->where('customer_id', $get('customer_id'))->where('address_type', 'Warehouse'))->label('Alamat Penerima')]),
 
                 Step::make('Detail')
                     ->icon('heroicon-o-truck')
                     ->description('Kendaraan')
+                    ->columns(3)
                     ->schema([
                         Select::make('kendaraan_id')
                             ->preload()
@@ -78,11 +91,14 @@ class SuratJalan extends Controller
                             ->label('Kendaraan')
                             ->relationship('kendaraan', 'nomor_polisi')
                             ->required(),
-
-                        Fieldset::make('Detail Kendaraan')
-                            ->columnSpanFull()
-                            ->schema([
-                                Placeholder::make('nama')
+                        Select::make('driver_id'),
+                        Section::make('Detail informasi Kendaraan')
+                        ->collapsible()
+                        ->collapsed()
+                        ->columns(3)
+                        ->description('Data Kendaraan sesuai STNK')
+                        ->schema([
+                            Placeholder::make('nama')
                                 ->live()
                                     ->content(function (Get $get): string {
                                         $kendaraan = Kendaraan::find($get('kendaraan_id'));
@@ -204,7 +220,7 @@ class SuratJalan extends Controller
                                             return $kendaraan->vendor? $kendaraan->vendor->nama : '';
                                         }
                                     }),
-                                
+
 
 
 

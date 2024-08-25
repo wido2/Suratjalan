@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Vendor;
+use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -13,7 +16,10 @@ class VendorController extends Controller
 {
     static function getFormVendor(): array {
         return [
-            TextInput::make('nama')
+            Fieldset::make('Create Data Vendor')
+            // ->description('data vendor')
+            ->schema([
+                TextInput::make('nama')
             ->required()
             ->placeholder('Nama Vendor / Perusahaan')
             ->label('Nama Vendor'),
@@ -31,12 +37,16 @@ class VendorController extends Controller
             ->placeholder('https://example.com')
             ->url()
             ->label('Website'),
+
+            ])->columns(2),
+
             // Select::make('kontak_id')
             // ->label('Kontak Person')
             // ->relationship('kontak','nama')
 
         ];
     }
+    
     static function getTableVendor():array{
         return [
             TextColumn::make('nama')->label('Nama Vendor'),
