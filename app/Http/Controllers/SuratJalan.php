@@ -119,7 +119,7 @@ class SuratJalan extends Controller
                 Step::make('Detail')
                     ->icon('heroicon-o-truck')
                     ->description('Kendaraan')
-                    ->columns(3)
+                    ->columns(2)
                     ->schema([
                         Select::make('kendaraan_id')
                             ->preload()
@@ -139,6 +139,12 @@ class SuratJalan extends Controller
                         Select::make('driver_id')
                         ->relationship('driver','nama')
                         ->preload()
+                        ->editOptionForm(
+                            DriverController::getDriverForm()
+                        )
+                        ->createOptionForm(
+                            DriverController::getDriverForm()
+                        )
                         ->live()
                         ->searchable(),
                         Section::make('Detail informasi Kendaraan')
@@ -166,7 +172,11 @@ class SuratJalan extends Controller
                                             $kendaraan = Kendaraan::find($get('kendaraan_id'));
                                             if (!$kendaraan){
                                                 return 'Pilih Kendaraan terlebih dahulu';
-                                            }else {
+                                            }
+                                            if ($kendaraan->nomor_polisi==null){
+                                                return 'Nomor Polisi Belum Diinput';
+                                            }
+                                            else {
                                                 return $kendaraan? $kendaraan->nomor_polisi : '';
                                             }
                                         }),
@@ -177,7 +187,11 @@ class SuratJalan extends Controller
                                         $kendaraan = Kendaraan::find($get('kendaraan_id'));
                                         if (!$kendaraan){
                                             return 'Pilih Kendaraan terlebih dahulu';
-                                        } else {
+                                        }
+                                        if ($kendaraan->merk==null){
+                                            return 'Merk Belum Diinput';
+                                        }
+                                        else {
                                             return $kendaraan? $kendaraan->merk : '';
                                         }
                                     }),
@@ -188,7 +202,11 @@ class SuratJalan extends Controller
                                         $kendaraan = Kendaraan::find($get('kendaraan_id'));
                                         if (!$kendaraan){
                                             return 'Pilih Kendaraan terlebih dahulu';
-                                        } else {
+                                        }
+                                        if($kendaraan->tahun_pembuatan==null){
+                                            return 'Tahun Pembuatan Belum Diinput';
+                                        }
+                                        else {
                                             return $kendaraan? $kendaraan->tahun_pembuatan : '';
                                         }
                                     }),
@@ -199,7 +217,13 @@ class SuratJalan extends Controller
                                         $kendaraan = Kendaraan::find($get('kendaraan_id'));
                                         if (!$kendaraan){
                                             return 'Pilih Kendaraan terlebih dahulu';
-                                        } else {
+                                        }
+                                        if ($kendaraan->warna==null){
+                                            return 'Warna Belum Diinput';
+                                        }
+
+
+                                        else {
                                             return $kendaraan? $kendaraan->warna : '';
                                         }
                                     }),
@@ -210,7 +234,12 @@ class SuratJalan extends Controller
                                         $kendaraan = Kendaraan::find($get('kendaraan_id'));
                                         if (!$kendaraan){
                                             return 'Pilih Kendaraan terlebih dahulu';
-                                        } else {
+                                        }
+                                        if ($kendaraan->nomor_rangka==null){
+                                            return 'Nomor Rangka Belum Diinput';
+                                        }
+
+                                        else {
                                             return $kendaraan? $kendaraan->nomor_rangka : '';
                                         }
                                     }),
@@ -221,7 +250,11 @@ class SuratJalan extends Controller
                                         $kendaraan = Kendaraan::find($get('kendaraan_id'));
                                         if (!$kendaraan){
                                             return 'Pilih Kendaraan terlebih dahulu';
-                                        } else {
+                                        }
+                                        if ($kendaraan->nomor_mesin==null){
+                                            return 'Nomor Mesin Belum Diinput';
+                                        }
+                                        else {
                                             return $kendaraan? $kendaraan->nomor_mesin : '';
                                         }
                                     }),
@@ -232,7 +265,11 @@ class SuratJalan extends Controller
                                         $kendaraan = Kendaraan::find($get('kendaraan_id'));
                                         if (!$kendaraan){
                                             return 'Pilih Kendaraan terlebih dahulu';
-                                        } else {
+                                        }
+                                        if ($kendaraan->nomor_stnk==null){
+                                            return 'Nomor STNK Belum Diinput';
+                                        }
+                                        else {
                                             return $kendaraan? $kendaraan->nomor_stnk : '';
                                         }
                                     }),
@@ -243,7 +280,11 @@ class SuratJalan extends Controller
                                         $kendaraan = Kendaraan::find($get('kendaraan_id'));
                                         if (!$kendaraan){
                                             return 'Pilih Kendaraan terlebih dahulu';
-                                        } else {
+                                        }
+                                        if($kendaraan->tanggal_stnk==null){
+                                            return 'Tanggal STNK Belum Diinput';
+                                        }
+                                        else {
                                             return $kendaraan? $kendaraan->tanggal_stnk : '';
                                         }
                                     }),
@@ -254,7 +295,11 @@ class SuratJalan extends Controller
                                         $kendaraan = Kendaraan::find($get('kendaraan_id'));
                                         if (!$kendaraan){
                                             return 'Pilih Kendaraan terlebih dahulu';
-                                        } else {
+                                        }
+                                        if($kendaraan->tanggal_bpkb==null){
+                                            return 'Tanggal BPKB Belum Diinput';
+                                        }
+                                        else {
                                             return $kendaraan? $kendaraan->tanggal_bpkb : '';
                                         }
                                     }),
@@ -265,7 +310,11 @@ class SuratJalan extends Controller
                                         $kendaraan = Kendaraan::find($get('kendaraan_id'));
                                         if (!$kendaraan){
                                             return 'Pilih Kendaraan terlebih dahulu';
-                                        } else {
+                                        }
+                                        if (!$kendaraan->vendor){
+                                            return 'Vendor Belum Diinput';
+                                        }
+                                        else {
                                             return $kendaraan->vendor? $kendaraan->vendor->nama : '';
                                         }
                                     }),
@@ -422,15 +471,15 @@ class SuratJalan extends Controller
                     ->description('Scan')
                     ->schema([
                         FileUpload::make('scan_surat')
-                        ->label('Lampiran')
+                        ->label('Lampiran Scan Surat Jalan')
                         ->multiple()
                         // ->required()
                         ->maxFiles(5),
                         FileUpload::make('lampiran')
-                        ->label('lampiran')
+                        ->label('lampiran Foto Barang di dalam Kendaraan')
                         ->multiple()
-                        ->required()
-                        ->maxFiles(5)]),
+                        // ->required()
+                        ->maxFiles(35)]),
 
                 Step::make('Barang')
                     ->icon('heroicon-o-squares-plus')
