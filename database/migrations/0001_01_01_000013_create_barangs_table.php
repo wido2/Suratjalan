@@ -19,11 +19,12 @@ return new class extends Migration
             $table->foreignId('produk_id')
                 ->constrained('produks')
                 ->cascadeOnDelete();
+            $table->decimal('qty',8,0);
+            $table->foreignId('satuan_id')
+                    ->constrained('satuans')
+                    ->cascadeOnDelete();
             $table->string('deskripsi')
                 ->nullable();
-            $table->foreignId('satuan_id')
-                ->constrained('satuans')
-                ->cascadeOnDelete();
             $table->timestamps();
         });
     }

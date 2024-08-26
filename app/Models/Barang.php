@@ -10,7 +10,7 @@ class Barang extends Model
     use HasFactory;
 
     protected $fillable=[
-        'surat_jalan_id','produk_id','deskripsi','satuan_id'
+        'surat_jalan_id','produk_id','deskripsi','satuan_id','qty'
     ];
 
     public function kategori()
@@ -29,7 +29,7 @@ class Barang extends Model
     {
         return $this->belongsTo(Satuan::class);
     }
-    
+
 
 
 }

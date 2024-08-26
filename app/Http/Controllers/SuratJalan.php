@@ -487,10 +487,13 @@ class SuratJalan extends Controller
                     ->schema([
                         Repeater::make('barangs')
                             ->relationship()
-                            ->schema([Select::make('produk_id')->required()->searchable()->preload()->relationship('produk', 'nama'), Select::make('satuan_id')->required()->searchable()->preload()->relationship('satuan', 'nama'), TextInput::make('deskripsi')]),
+                            ->schema([
+                                Select::make('produk_id')->required()->searchable()->preload()->relationship('produk', 'nama'),
+                                Select::make('satuan_id')->required()->searchable()->preload()->relationship('satuan', 'nama'),
+                                TextInput::make('deskripsi')]),
                     ]),
             ])
-                ->startOnStep(2)
+                ->startOnStep(1)
                 ->columnSpanFull(),
         ];
     }
